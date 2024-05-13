@@ -51,7 +51,7 @@ def get_number_from_img_v2(api_key):
 
     enhanced_image = enhancer.enhance(2.0)
 
-    enhanced_image.show()
+    # enhanced_image.show()
 
     enhanced_image.save(r'save_screen.png')
 
@@ -74,4 +74,4 @@ def get_number_from_img_v2(api_key):
     return number
 
 
-print(get_number_from_img_v2('K89172719188957'))
+# print(get_number_from_img_v2('K89172719188957'))
