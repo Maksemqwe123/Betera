@@ -1,3 +1,6 @@
+apiURL = 'https://api.telegram.org/bot7174253958:AAERzpu-A7mGcYcdbbqki-WwsjX2iZ2TYj8/sendPhoto'
+chat_id = '-1002079599582'
+
 RED_NUMBER_LIST = [1, 3, 5, 7, 9, 12, 14, 16, 18, 19, 21, 23, 25, 27, 30, 32, 34, 36]
 
 API_KEYS = [

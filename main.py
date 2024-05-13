@@ -1,17 +1,6 @@
-import time
-
 from PIL import Image, ImageFilter, ImageEnhance
 import pytesseract
 import requests
-
-# API_KEY = 'K85148581388957'
-#
-# API_KEYS = [
-#     'K81018853988957', 'K89172719188957',
-#     'K89172719188957', 'K84246354788957',
-#     'K83186957388957', 'K82207138488957',
-#     'K83396300188957', 'K85148581388957'
-# ]
 
 
 def get_number_from_img():
@@ -51,7 +40,7 @@ def get_number_from_img_v2(api_key):
     width, height = image.size
 
     # area = (10, 1350, width - 1070, height)
-    area = (1908, 1049, width - 620, height - 525)
+    area = (1908, 1044, width - 620, height - 520)
     # area = (92, 1480, width - 2450, height - 98)
 
     cropped_img = image.crop(area)
@@ -62,7 +51,7 @@ def get_number_from_img_v2(api_key):
 
     enhanced_image = enhancer.enhance(2.0)
 
-    # enhanced_image.show()
+    enhanced_image.show()
 
     enhanced_image.save(r'save_screen.png')
 
@@ -85,4 +74,4 @@ def get_number_from_img_v2(api_key):
     return number
 
 
-# print(get_number_from_img_v2('K89172719188957'))
+print(get_number_from_img_v2('K89172719188957'))

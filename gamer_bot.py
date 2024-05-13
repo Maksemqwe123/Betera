@@ -86,53 +86,6 @@ class RoleteBot:
         black_number = []
         count_black_number = [0, 0]
         try:
-            # iframe = driver.find_element(By.ID, "iFrameResizer0")
-            #
-            # driver.switch_to.frame(iframe)
-            # time.sleep(2)
-            #
-            # input_phone = driver.find_element(By.CSS_SELECTOR, 'div.PhoneInput_telInputMask__4bIfr input#login-phone')
-            # time.sleep(2)
-            #
-            # input_phone.click()
-            # time.sleep(2)
-            #
-            # input_phone.send_keys('298555344')
-            # time.sleep(1)
-            #
-            # input_password = driver.find_element(By.CLASS_NAME, 'Password_passwordField__input__tUCEf')
-            # input_password.click()
-            # time.sleep(2)
-            #
-            # input_password.send_keys('Makcemjoi990')
-            # time.sleep(1)
-            #
-            # input_password.send_keys(Keys.ENTER)
-            # time.sleep(5)
-            # driver.get('https://pm.by/ru/play/livecasino/106/Mega%20Roulette/standard/playreal/10514')
-            #
-            # time.sleep(30)
-            #
-            # pyautogui.moveTo(2100, 540)
-            # time.sleep(1)
-            # pyautogui.click()
-            # time.sleep(10)
-            #
-            # pyautogui.moveTo(1200, 780)
-            # time.sleep(1)
-            # pyautogui.click()
-            #
-            # time.sleep(3)
-            #
-            # pyautogui.moveTo(2305, 1445)
-            # time.sleep(2)
-            # pyautogui.doubleClick()
-            #
-            # time.sleep(3)
-            #
-            # pyautogui.moveTo(1200, 1340)
-            # time.sleep(2)
-
             index_api_key = 0
             while True:
                 driver.save_screenshot("screenshot.png")
@@ -150,6 +103,7 @@ class RoleteBot:
                     black_number.append(last_number)
 
                 rolete_number = get_number_from_img_v2(api_key=self.api_keys[index_api_key])
+                print('info rolete_number: ', rolete_number)
 
                 if rolete_number == 'LL':
                     rolete_number = '17'
