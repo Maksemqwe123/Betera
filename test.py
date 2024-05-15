@@ -22,3 +22,10 @@ pyautogui.moveTo(2305, 1445)
 #
 # print(min(random_list))
 
+
+
+
+# import win32api, win32con
+# win32api.SetCursorPos((400, 400))
+# win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, 400, 400, 0, 0)
+# win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, 400, 400, 0, 0)

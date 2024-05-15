@@ -6,7 +6,7 @@ count = 0
 while True:
     try:
         send_to_telegram()
-        exec(open("gamer_bot.py").read())
+        exec(open("gamer_bot.py", encoding='utf-8').read())
         break
     except Exception as ex:
         send_to_telegram()
