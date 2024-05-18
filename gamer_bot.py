@@ -8,16 +8,32 @@ import undetected_chromedriver
 from selenium.webdriver.chrome.options import Options
 
 
-
 from main import get_number_from_img_v2
 
 from conf import *
 
+import cv2
+import numpy as np
 import pyautogui
 import time
 import logging
 
 logging.basicConfig(filename='betera.log', filemode='w+', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+
+def detected_color():
+    # Загрузка изображения
+    image = cv2.imread('save_screen.png')
+
+    # Определение диапазона красного цвета в формате BGR
+    lower_red = np.array([0, 0, 200])
+    upper_red = np.array([50, 50, 255])
+
+    # Поиск пикселей красного цвета в заданном диапазоне
+    mask = cv2.inRange(image, lower_red, upper_red)
+    red_present = cv2.countNonZero(mask) > 0
+
+    return red_present
 
 
 class RoleteBot:
@@ -99,7 +115,6 @@ class RoleteBot:
             logging.error(ex)
             driver.close()
             raise Exception(ex)
-            return ex
 
     def _game_in_roulete(self, driver):
         black_number = []
@@ -110,7 +125,7 @@ class RoleteBot:
 
         while True:
             if time.time() - start_time > 1020 and count_black_number[-1] == 1:
-                raise Exception(ex)
+                raise Exception('exceeding the time limit')
             driver.save_screenshot("screenshot.png")
             time.sleep(2)
 
@@ -133,7 +148,15 @@ class RoleteBot:
 
             if not rolete_number and int(black_number[-1]) != 0:
                 logging.error('not detected number')
-                rolete_number = '0'
+
+                red_present = detected_color()
+
+                if red_present:
+                    logging.info("There is a red color in the image")
+                    rolete_number = '5'
+                else:
+                    logging.info("There is no red color in the image.")
+                    rolete_number = '0'
 
             if not black_number or len(rolete_number) < 3 and rolete_number and int(black_number[-1]) != int(rolete_number):
                 logging.info('---------------------------')
