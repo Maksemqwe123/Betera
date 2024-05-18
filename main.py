@@ -32,16 +32,17 @@ def get_number_from_img():
     return text_1
 
 
-def get_number_from_img_v2(api_key):
+def get_number_from_img_v2(api_key, area=None):
     image = Image.open(r'screenshot.png')
 
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
     width, height = image.size
 
-    # area = (10, 1350, width - 1070, height)
-    area = (1907, 1017, width - 617, height - 495)
-    # area = (92, 1480, width - 2450, height - 98)
+    if area is None:
+        area = (1906, 1017, width - 617, height - 495)
+    else:
+        area = (1968, 1017, width - 555, height - 495)
 
     cropped_img = image.crop(area)
 
@@ -51,7 +52,7 @@ def get_number_from_img_v2(api_key):
 
     enhanced_image = enhancer.enhance(2.0)
 
-    #enhanced_image.show()
+    # enhanced_image.show()
 
     enhanced_image.save(r'save_screen.png')
 
@@ -74,4 +75,4 @@ def get_number_from_img_v2(api_key):
     return number
 
 
-#print(get_number_from_img_v2('K89172719188957'))
+# print(get_number_from_img_v2('K89172719188957'))

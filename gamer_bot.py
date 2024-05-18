@@ -124,7 +124,7 @@ class RoleteBot:
         start_time = time.time()
 
         while True:
-            if time.time() - start_time > 1020 and count_black_number[-1] == 1:
+            if time.time() - start_time > 480 and count_black_number[-1] == 1:
                 raise Exception('exceeding the time limit')
             driver.save_screenshot("screenshot.png")
             time.sleep(2)
@@ -200,7 +200,61 @@ class RoleteBot:
 
                 logging.info('------------------------')
             else:
-                time.sleep(4)
+                dubl_rolete_number = get_number_from_img_v2(api_key=self.api_keys[index_api_key], area=True)
+
+                if not dubl_rolete_number and int(black_number[-1]) != 0:
+                    logging.error('not detected dubl rolete number')
+
+                    red_present = detected_color()
+
+                    if red_present:
+                        logging.info("There is a red color in the image")
+                        dubl_rolete_number = '5'
+                    else:
+                        logging.info("There is no red color in the image.")
+                        dubl_rolete_number = '0'
+
+                if int(dubl_rolete_number) == int(black_number[-1]) and int(black_number[-1]) not in self.red_number_list:
+                    logging.info('detected dubl rolete number')
+
+                    logging.info(f'Dubl Rollet number: {dubl_rolete_number}')
+                    logging.info(f'Black List number: {black_number}')
+                    logging.info(f'count: {count_black_number}')
+                    logging.info('\n\n')
+
+                    black_number.append(int(dubl_rolete_number))
+
+                    if count_black_number[-1] == 0:
+                        count = [1, 1]
+                    elif count_black_number[-1] == 1:
+                        count = [1, 2]
+
+                    elif count_black_number[-1] == 2:
+                        count = [3, 3]
+
+                    elif count_black_number[-1] > 2:
+                        count = [count_black_number[0] * 2, 3]
+                    else:
+                        logging.info('hello world')
+                        count = [count_black_number[0] + 1, 3]
+
+                    count_black_number.clear()
+
+                    count_black_number.extend(count)
+
+                    for i in range(count_black_number[0]):
+                        pyautogui.click()
+
+                elif int(dubl_rolete_number) == int(black_number[-1]) and int(black_number[-1]) in self.red_number_list:
+                    black_number.append(int(dubl_rolete_number))
+
+                    logging.info('dubl rolete red number')
+                    count_black_number.clear()
+                    count_black_number.extend([1, 1])
+
+                    pyautogui.click()
+                else:
+                    time.sleep(2)
 
 
 start = time.time()
