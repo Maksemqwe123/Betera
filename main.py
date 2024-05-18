@@ -4,7 +4,7 @@ import requests
 
 
 def get_number_from_img():
-    image = Image.open(r'Снимок экрана (952).png')
+    image = Image.open(r'screenshot.png')
 
     pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
 
@@ -12,6 +12,7 @@ def get_number_from_img():
 
     # area = (450, 1317, width - 2070, height - 250)
     area = (10, 1450, width - 2490, height - 90)
+    # area = (1905, 1017, width - 618, height - 495)
 
     cropped_img = image.crop(area)
 
@@ -31,6 +32,8 @@ def get_number_from_img():
 
     return text_1
 
+# print(get_number_from_img())
+
 
 def get_number_from_img_v2(api_key, area=None):
     image = Image.open(r'screenshot.png')
@@ -40,7 +43,8 @@ def get_number_from_img_v2(api_key, area=None):
     width, height = image.size
 
     if area is None:
-        area = (1906, 1017, width - 617, height - 495)
+        # area = (1906, 1017, width - 617, height - 495)
+        area = (1905, 1017, width - 618, height - 495)
     else:
         area = (1968, 1017, width - 555, height - 495)
 

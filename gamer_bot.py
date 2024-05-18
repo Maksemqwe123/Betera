@@ -161,6 +161,12 @@ class RoleteBot:
             if not black_number or len(rolete_number) < 3 and rolete_number and int(black_number[-1]) != int(rolete_number):
                 logging.info('---------------------------')
 
+                if int(rolete_number) == 6:
+                    red_present = detected_color()
+
+                    if red_present:
+                        rolete_number = '9'
+
                 black_number.append(int(rolete_number))
 
                 logging.info(f'Rollet number: {rolete_number}')
@@ -222,7 +228,7 @@ class RoleteBot:
                     logging.info(f'count: {count_black_number}')
                     logging.info('\n\n')
 
-                    black_number.append(int(dubl_rolete_number))
+                    black_number.append(37)
 
                     if count_black_number[-1] == 0:
                         count = [1, 1]
@@ -246,7 +252,7 @@ class RoleteBot:
                         pyautogui.click()
 
                 elif int(dubl_rolete_number) == int(black_number[-1]) and int(black_number[-1]) in self.red_number_list:
-                    black_number.append(int(dubl_rolete_number))
+                    black_number.append(5)
 
                     logging.info('dubl rolete red number')
                     count_black_number.clear()
