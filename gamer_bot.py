@@ -2,12 +2,22 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver import ActionChains
+from selenium.webdriver.chrome.service import Service as ChromeService
+from webdriver_manager.chrome import ChromeDriverManager
+import undetected_chromedriver
+from selenium.webdriver.chrome.options import Options
+
+
 
 from main import get_number_from_img_v2
+
 from conf import *
 
 import pyautogui
 import time
+import logging
+
+logging.basicConfig(filename='betera.log', filemode='w+', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 
 class RoleteBot:
@@ -18,14 +28,13 @@ class RoleteBot:
         self._get_html()
 
     def _get_html(self):
-        options = webdriver.FirefoxOptions()
-
-        driver = webdriver.Firefox(
-            options=options
-        )
+        chrome_options = Options()
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        driver = webdriver.Chrome(options=chrome_options)
         driver.maximize_window()
         driver.get('https://pm.by/ru/popup/login')
-        print('connection')
+        logging.info('connection')
         time.sleep(10)
 
         self._auth(driver)
@@ -59,23 +68,17 @@ class RoleteBot:
 
             time.sleep(30)
 
-            action = ActionChains(driver)  # Создание объекта ActionChains
-
-            element = driver.find_element(By.TAG_NAME, 'body')
-
-            # Перемещение мыши на 50 пикселей вправо и 50 пикселей вниз от текущей позиции
-            action.move_to_element(element).move_by_offset(50, 50).perform()
-
             time.sleep(10)
 
             pyautogui.FAILSAFE = False
 
-            pyautogui.moveTo(2100, 540)
+            pyautogui.moveTo(2112, 527)
             time.sleep(1)
             pyautogui.click()
+
             time.sleep(10)
 
-            pyautogui.moveTo(1200, 780)
+            pyautogui.moveTo(1292, 831)
             time.sleep(1)
             pyautogui.click()
 
@@ -85,21 +88,29 @@ class RoleteBot:
             time.sleep(2)
             pyautogui.doubleClick()
 
-            time.sleep(3)
+            time.sleep(5)
 
-            pyautogui.moveTo(1200, 1340)
+            pyautogui.moveTo(1223, 1356)
             time.sleep(2)
 
-        except Exception as ex:
-            return ex
+            self._game_in_roulete(driver)
 
-        self._game_in_roulete(driver)
+        except Exception as ex:
+            logging.error(ex)
+            driver.close()
+            raise Exception(ex)
+            return ex
 
     def _game_in_roulete(self, driver):
         black_number = []
         count_black_number = [0, 0]
         index_api_key = 0
+
+        start_time = time.time()
+
         while True:
+            if time.time() - start_time > 1020 and count_black_number[-1] == 1:
+                raise Exception(ex)
             driver.save_screenshot("screenshot.png")
             time.sleep(2)
 
@@ -115,24 +126,24 @@ class RoleteBot:
                 black_number.append(last_number)
 
             rolete_number = get_number_from_img_v2(api_key=self.api_keys[index_api_key])
-            print('info rolete_number: ', rolete_number)
+            logging.info('info rolete_number: ', rolete_number)
 
             if rolete_number == 'LL':
                 rolete_number = '17'
 
             if not rolete_number and int(black_number[-1]) != 0:
-                print('not detected number')
+                logging.error('not detected number')
                 rolete_number = '0'
 
             if not black_number or len(rolete_number) < 3 and rolete_number and int(black_number[-1]) != int(rolete_number):
-                print('---------------------------')
+                logging.info('---------------------------')
 
                 black_number.append(int(rolete_number))
 
-                print(f'Rollet number: ', rolete_number)
-                print('Black List number: ', black_number)
-                print('count: ', count_black_number)
-                print('\n\n')
+                logging.info(f'Rollet number: {rolete_number}')
+                logging.info(f'Black List number: {black_number}')
+                logging.info(f'count: {count_black_number}')
+                logging.info('\n\n')
 
                 if int(black_number[-1]) not in self.red_number_list:
                     if count_black_number[-1] == 0:
@@ -146,14 +157,14 @@ class RoleteBot:
                     elif count_black_number[-1] > 2:
                         count = [count_black_number[0] * 2, 3]
                     else:
-                        print('hello world')
+                        logging.info('hello world')
                         count = [count_black_number[0] + 1, 3]
 
                     count_black_number.clear()
 
                     count_black_number.extend(count)
                 else:
-                    print('red number')
+                    logging.info('red number')
                     count_black_number.clear()
                     count_black_number.extend([1, 1])
 
@@ -164,12 +175,14 @@ class RoleteBot:
                     for i in range(count_black_number[0]):
                         pyautogui.click()
 
-                print('------------------------')
+                logging.info('------------------------')
+            else:
+                time.sleep(4)
 
 
 start = time.time()
 RoleteBot()
 end = time.time()
 
-print('Время работы: ', (end - start) // 60)
+logging.info(f'Время работы: {(end - start) // 60}')
 

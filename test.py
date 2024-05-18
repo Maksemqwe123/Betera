@@ -1,6 +1,15 @@
 import pyautogui
+import time 
 
-pyautogui.moveTo(2305, 1445)
+#time.sleep(26)
+#x, y = pyautogui.position()
+#print(f'Координаты курсора: {x}, {y}')
+
+#time.sleep(15)
+pyautogui.moveTo(1223, 1356)
+
+#time.sleep(5)
+#pyautogui.doubleClick()
 
 # for i in range(0, 10):
 #     print(i)
