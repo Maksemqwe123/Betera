@@ -25,5 +25,5 @@ while True:
 
     count += 1
 
-    if count > 10:
+    if count > 24:
         break
